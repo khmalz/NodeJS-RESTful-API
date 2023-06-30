@@ -100,7 +100,7 @@ Response Body Success :
 ```json
 {
    "data": {
-      "userame": "kmlz",
+      "username": "kmlz",
       "name": "Khairul Akmal"
    }
 }
