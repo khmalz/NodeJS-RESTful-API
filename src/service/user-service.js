@@ -1,7 +1,7 @@
 import { compare, hash } from "bcrypt";
 import { prismaClient } from "../app/database";
 import { ResponseError } from "../error/response-error";
-import { getUserValidation, loginUserValidation, registerUserValidation } from "../validation/user-validation";
+import { getUserValidation, loginUserValidation, registerUserValidation, updateUserValidation } from "../validation/user-validation";
 import { validate } from "../validation/validation";
 import { v4 as uuid } from "uuid";
 
@@ -77,8 +77,38 @@ const get = async username => {
    return user;
 };
 
+const update = async request => {
+   const user = validate(updateUserValidation, request);
+
+   const totalUserInDatabase = await prismaClient.user.count({
+      where: { username: user.username },
+   });
+
+   if (totalUserInDatabase !== 1) {
+      throw new ResponseError(404, "User is not found");
+   }
+
+   const data = {};
+   if (user.name) {
+      data.name = user.name;
+   }
+   if (user.password) {
+      data.password = await hash(user.password, 10);
+   }
+
+   return prismaClient.user.update({
+      where: { username: user.username },
+      data,
+      select: {
+         username: true,
+         name: true,
+      },
+   });
+};
+
 export default {
    register,
    login,
    get,
+   update,
 };
