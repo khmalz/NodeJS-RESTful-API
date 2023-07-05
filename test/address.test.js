@@ -19,7 +19,7 @@ describe("POST /api/contacts/:contactId/addresses", () => {
       const testContact = await getTestContact();
 
       const result = await supertest(web).post(`/api/contacts/${testContact.id}/addresses`).set("Authorization", "test").send({
-         street: "Jalan street",
+         street: "Jalan test",
          city: "Kota Test",
          province: "Provinsi Test",
          country: "Indonesia",
@@ -28,7 +28,7 @@ describe("POST /api/contacts/:contactId/addresses", () => {
 
       expect(result.status).toBe(200);
       expect(result.body.data.id).toBeDefined();
-      expect(result.body.data.street).toBe("Jalan street");
+      expect(result.body.data.street).toBe("Jalan test");
       expect(result.body.data.city).toBe("Kota Test");
       expect(result.body.data.province).toBe("Provinsi Test");
       expect(result.body.data.country).toBe("Indonesia");
@@ -39,7 +39,7 @@ describe("POST /api/contacts/:contactId/addresses", () => {
       const testContact = await getTestContact();
 
       const result = await supertest(web).post(`/api/contacts/${testContact.id}/addresses`).set("Authorization", "test").send({
-         street: "Jalan street",
+         street: "Jalan test",
          city: "Kota Test",
          province: "Provinsi Test",
          country: "",
@@ -52,7 +52,7 @@ describe("POST /api/contacts/:contactId/addresses", () => {
 
    it("should reject if contact is not found", async () => {
       const result = await supertest(web).post(`/api/contacts/01212/addresses`).set("Authorization", "test").send({
-         street: "Jalan street",
+         street: "Jalan test",
          city: "Kota Test",
          province: "Provinsi Test",
          country: "",
@@ -85,14 +85,14 @@ describe("GET /api/contacts/:contactId/addresses/:addressId", () => {
 
       expect(result.status).toBe(200);
       expect(result.body.data.id).toBeDefined();
-      expect(result.body.data.street).toBe("Jalan street");
+      expect(result.body.data.street).toBe("Jalan test");
       expect(result.body.data.city).toBe("Kota Test");
       expect(result.body.data.province).toBe("Provinsi Test");
       expect(result.body.data.country).toBe("Indonesia");
       expect(result.body.data.postal_code).toBe("291872");
    });
 
-   it("should rejet if contact is not found", async () => {
+   it("should reject if contact is not found", async () => {
       const testAddress = await getTestAddress();
 
       const result = await supertest(web).get(`/api/contacts/019912/addresses/${testAddress.id}`).set("Authorization", "test");
@@ -101,10 +101,91 @@ describe("GET /api/contacts/:contactId/addresses/:addressId", () => {
       expect(result.body.errors).toBeDefined();
    });
 
-   it("should rejet if address is not found", async () => {
+   it("should reject if address is not found", async () => {
       const testContact = await getTestContact();
 
       const result = await supertest(web).get(`/api/contacts/${testContact.id}/addresses/01921`).set("Authorization", "test");
+
+      expect(result.status).toBe(404);
+      expect(result.body.errors).toBeDefined();
+   });
+});
+
+describe("PUT /api/contacts/:contactId/addresses/:addressId", () => {
+   beforeEach(async () => {
+      await createTestUser();
+      await createTestContact();
+      await createTestAddress();
+   });
+
+   afterEach(async () => {
+      await removeAllAddress();
+      await removeAllContacts();
+      await removeTestUser();
+   });
+
+   it("should can update address", async () => {
+      const testContact = await getTestContact();
+      const testAddress = await getTestAddress();
+
+      const result = await supertest(web).put(`/api/contacts/${testContact.id}/addresses/${testAddress.id}`).set("Authorization", "test").send({
+         street: "street",
+         city: "city",
+         province: "province",
+         country: "Indonesia",
+         postal_code: "191281",
+      });
+
+      expect(result.status).toBe(200);
+      expect(result.body.data.id).toBeDefined();
+      expect(result.body.data.street).toBe("street");
+      expect(result.body.data.city).toBe("city");
+      expect(result.body.data.province).toBe("province");
+      expect(result.body.data.country).toBe("Indonesia");
+      expect(result.body.data.postal_code).toBe("191281");
+   });
+
+   it("should reject if request is not valid", async () => {
+      const testContact = await getTestContact();
+      const testAddress = await getTestAddress();
+
+      const result = await supertest(web).put(`/api/contacts/${testContact.id}/addresses/${testAddress.id}`).set("Authorization", "test").send({
+         street: "street",
+         city: "city",
+         province: "province",
+         country: "",
+         postal_code: "",
+      });
+
+      expect(result.status).toBe(400);
+      expect(result.body.errors).toBeDefined();
+   });
+
+   it("should reject if contact is not found", async () => {
+      const testAddress = await getTestAddress();
+
+      const result = await supertest(web).put(`/api/contacts/019912/addresses/${testAddress.id}`).set("Authorization", "test").send({
+         street: "street",
+         city: "city",
+         province: "province",
+         country: "Indonesia",
+         postal_code: "191281",
+      });
+
+      expect(result.status).toBe(404);
+      expect(result.body.errors).toBeDefined();
+   });
+
+   it("should reject if address is not found", async () => {
+      const testContact = await getTestContact();
+
+      const result = await supertest(web).put(`/api/contacts/${testContact.id}/addresses/01921`).set("Authorization", "test").send({
+         street: "street",
+         city: "city",
+         province: "province",
+         country: "Indonesia",
+         postal_code: "191281",
+      });
 
       expect(result.status).toBe(404);
       expect(result.body.errors).toBeDefined();

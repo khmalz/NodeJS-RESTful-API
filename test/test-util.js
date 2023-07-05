@@ -86,7 +86,7 @@ export const createTestAddress = async () => {
    await prismaClient.address.create({
       data: {
          contact_id: contact.id,
-         street: "Jalan street",
+         street: "Jalan test",
          city: "Kota Test",
          province: "Provinsi Test",
          country: "Indonesia",
