@@ -1,0 +1,152 @@
+### Create User
+
+POST http://localhost:3000/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+   "username": "khmlz",
+   "password": "rahasia",
+   "name": "Khairul"
+}
+
+### Login User
+
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+Accept: application/json
+
+{
+   "username": "khmlz",
+   "password": "rahasia"
+}
+
+### Get User
+
+GET http://localhost:3000/api/users/current
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c
+
+### Update User
+
+PATCH http://localhost:3000/api/users/current
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c
+
+{
+   "name" : "Khairul Akmal"
+}
+
+### Logout User
+
+DELETE http://localhost:3000/api/users/logout
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c
+
+################################################################ Contact
+
+### Create Contact
+
+POST http://localhost:3000/api/contacts
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c
+
+{
+   "first_name" : "Tayz",
+   "last_name" : "Kayna",
+   "email" : "kayz@gmail.com",
+   "phone" : "08718212341"
+}
+
+### Get Contacts
+
+GET http://localhost:3000/api/contacts
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c
+
+### Get Single Contact
+
+GET http://localhost:3000/api/contacts/710
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c
+
+### Update Contact
+
+PUT http://localhost:3000/api/contacts/711
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c
+
+{
+   "id": 711,
+   "first_name": "Arkaz",
+   "last_name": "Sayza",
+   "email": "Arza@gmail.com",
+   "phone": "08718212341"
+}
+
+### Delete Contact
+
+DELETE http://localhost:3000/api/contacts/711
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c
+
+################################################################ Address
+
+### Create Address
+
+POST http://localhost:3000/api/contacts/710/addresses
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c
+
+{
+   "street": "Jalan Otw",
+   "city": "Semarang",
+   "province": "Jawa Tengah",
+   "country" : "Indonesia",
+   "postal_code" : "389128"
+}
+
+### Get Addresses
+
+GET http://localhost:3000/api/contacts/710/addresses
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c
+
+### Get Single Address
+
+GET http://localhost:3000/api/contacts/710/addresses/33
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c
+
+### Update Address
+
+PUT http://localhost:3000/api/contacts/710/addresses/33
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c
+
+{
+   "street": "Jalan Udah Jadi",
+   "city": "Bandung",
+   "province": "Jawa Barat",
+   "country": "Indonesia",
+   "postal_code": "3971725"
+}
+
+### Delete Address
+
+DELETE http://localhost:3000/api/contacts/710/addresses/34
+Content-Type: application/json
+Accept: application/json
+Authorization: 3f1371f6-c646-4213-9c3e-0961c593256c

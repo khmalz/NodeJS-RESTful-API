@@ -4,7 +4,8 @@
    "description": "Belajar NodeJS RESTfull API",
    "main": "src/main.js",
    "scripts": {
-      "test": "jest -i"
+      "test": "jest -i",
+      "start": "node --experimental-specifier-resolution=node src/main"
    },
    "jest": {
       "transform": {

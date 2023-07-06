@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const createAdressValidation = Joi.object({
    street: Joi.string().max(255).optional(),

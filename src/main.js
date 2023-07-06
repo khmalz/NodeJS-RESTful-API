@@ -1,6 +1,6 @@
 import { web } from "./app/web";
 import { logger } from "./app/logging";
 
-web.listen(300, () => {
+web.listen(3000, () => {
    logger.info("App Start");
 });
