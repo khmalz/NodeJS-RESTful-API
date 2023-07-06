@@ -14,9 +14,7 @@ const checkContactMustExist = async (user, contactId) => {
       },
    });
 
-   if (totalContact !== 1) {
-      throw new ResponseError(404, "Contact is not found");
-   }
+   if (totalContact !== 1) throw new ResponseError(404, "Contact is not found");
 
    return contactId;
 };
@@ -60,9 +58,7 @@ const get = async (user, contactId, addressId) => {
       },
    });
 
-   if (!address) {
-      throw new ResponseError(404, "Address is not found");
-   }
+   if (!address) throw new ResponseError(404, "Address is not found");
 
    return address;
 };
@@ -78,9 +74,7 @@ const update = async (user, contactId, request) => {
       },
    });
 
-   if (totalAddress !== 1) {
-      throw new ResponseError(404, "Address is not found");
-   }
+   if (totalAddress !== 1) throw new ResponseError(404, "Address is not found");
 
    return prismaClient.address.update({
       where: {
@@ -115,9 +109,7 @@ const remove = async (user, contactId, addressId) => {
       },
    });
 
-   if (totalAddress !== 1) {
-      throw new ResponseError(404, "Address is not found");
-   }
+   if (totalAddress !== 1) throw new ResponseError(404, "Address is not found");
 
    return prismaClient.address.delete({
       where: {

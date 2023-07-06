@@ -7,14 +7,11 @@ import { v4 as uuid } from "uuid";
 
 const register = async request => {
    const user = validate(registerUserValidation, request);
-
    const countUser = await prismaClient.user.count({
       where: { username: user.username },
    });
 
-   if (countUser === 1) {
-      throw new ResponseError(400, "Username already exists");
-   }
+   if (countUser === 1) throw new ResponseError(400, "Username already exists");
 
    user.password = await hash(user.password, 10);
 
@@ -38,15 +35,11 @@ const login = async request => {
       },
    });
 
-   if (!user) {
-      throw new ResponseError(401, "Username or password wrong");
-   }
+   if (!user) throw new ResponseError(401, "Username or password wrong");
 
    const isPasswordValid = await compare(loginRequest.password, user.password);
 
-   if (!isPasswordValid) {
-      throw new ResponseError(401, "Username or password wrong");
-   }
+   if (!isPasswordValid) throw new ResponseError(401, "Username or password wrong");
 
    const token = uuid().toString();
 
@@ -70,9 +63,7 @@ const get = async username => {
       },
    });
 
-   if (!user) {
-      throw new ResponseError(404, "User is not found");
-   }
+   if (!user) throw new ResponseError(404, "User is not found");
 
    return user;
 };
@@ -84,17 +75,12 @@ const update = async request => {
       where: { username: user.username },
    });
 
-   if (totalUserInDatabase !== 1) {
-      throw new ResponseError(404, "User is not found");
-   }
+   if (totalUserInDatabase !== 1) throw new ResponseError(404, "User is not found");
 
    const data = {};
-   if (user.name) {
-      data.name = user.name;
-   }
-   if (user.password) {
-      data.password = await hash(user.password, 10);
-   }
+
+   if (user.name) data.name = user.name;
+   if (user.password) data.password = await hash(user.password, 10);
 
    return prismaClient.user.update({
       where: { username: user.username },
@@ -113,9 +99,7 @@ const logout = async username => {
       where: { username },
    });
 
-   if (!user) {
-      throw new ResponseError(404, "User is not found");
-   }
+   if (!user) throw new ResponseError(404, "User is not found");
 
    return prismaClient.user.update({
       where: { username },

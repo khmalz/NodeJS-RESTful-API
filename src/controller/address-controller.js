@@ -4,7 +4,7 @@ const create = async (req, res, next) => {
    try {
       const user = req.user;
       const request = req.body;
-      const contactId = req.params.contactId;
+      const { contactId } = req.params;
 
       const result = await addressService.create(user, contactId, request);
 
@@ -19,8 +19,7 @@ const create = async (req, res, next) => {
 const get = async (req, res, next) => {
    try {
       const user = req.user;
-      const contactId = req.params.contactId;
-      const addressId = req.params.addressId;
+      const { contactId, addressId } = req.params;
 
       const result = await addressService.get(user, contactId, addressId);
 
@@ -35,8 +34,7 @@ const get = async (req, res, next) => {
 const update = async (req, res, next) => {
    try {
       const user = req.user;
-      const contactId = req.params.contactId;
-      const addressId = req.params.addressId;
+      const { contactId, addressId } = req.params;
       const request = req.body;
       request.id = addressId;
 
@@ -53,8 +51,7 @@ const update = async (req, res, next) => {
 const remove = async (req, res, next) => {
    try {
       const user = req.user;
-      const contactId = req.params.contactId;
-      const addressId = req.params.addressId;
+      const { contactId, addressId } = req.params;
 
       await addressService.remove(user, contactId, addressId);
 
@@ -69,7 +66,7 @@ const remove = async (req, res, next) => {
 const list = async (req, res, next) => {
    try {
       const user = req.user;
-      const contactId = req.params.contactId;
+      const { contactId } = req.params;
 
       const result = await addressService.list(user, contactId);
 

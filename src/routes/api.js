@@ -8,22 +8,15 @@ const userRouter = express.Router();
 userRouter.use(authMiddleware);
 
 // User API
-userRouter.get("/api/users/current", userController.get);
-userRouter.patch("/api/users/current", userController.update);
+userRouter.route("/api/users/current").get(userController.get).patch(userController.update);
 userRouter.delete("/api/users/logout", userController.logout);
 
 // Contact API
-userRouter.post("/api/contacts", contactController.create);
-userRouter.get("/api/contacts/:contactId", contactController.get);
-userRouter.put("/api/contacts/:contactId", contactController.update);
-userRouter.delete("/api/contacts/:contactId", contactController.remove);
-userRouter.get("/api/contacts", contactController.search);
+userRouter.route("/api/contacts").post(contactController.create).get(contactController.search);
+userRouter.route("/api/contacts/:contactId").get(contactController.get).put(contactController.update).delete(contactController.remove);
 
 // Address API
-userRouter.post("/api/contacts/:contactId/addresses", addressController.create);
-userRouter.get("/api/contacts/:contactId/addresses/:addressId", addressController.get);
-userRouter.put("/api/contacts/:contactId/addresses/:addressId", addressController.update);
-userRouter.delete("/api/contacts/:contactId/addresses/:addressId", addressController.remove);
-userRouter.get("/api/contacts/:contactId/addresses", addressController.list);
+userRouter.route("/api/contacts/:contactId/addresses").post(addressController.create).get(addressController.list);
+userRouter.route("/api/contacts/:contactId/addresses/:addressId").get(addressController.get).put(addressController.update).delete(addressController.remove);
 
 export { userRouter };

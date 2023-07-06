@@ -24,7 +24,7 @@ const login = async (req, res, next) => {
 
 const get = async (req, res, next) => {
    try {
-      const username = req.user.username;
+      const { username } = req.user;
       const result = await userService.get(username);
       res.status(200).json({
          data: result,
@@ -36,7 +36,7 @@ const get = async (req, res, next) => {
 
 const update = async (req, res, next) => {
    try {
-      const username = req.user.username;
+      const { username } = req.user;
       const request = req.body;
       request.username = username;
 
